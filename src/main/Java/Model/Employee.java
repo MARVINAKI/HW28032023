@@ -1,32 +1,30 @@
 package Model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Employee {
 	private int id;
 	private String name;
-	private String last_name;
+	private String lastName;
 	private int age;
-	private Integer city_id;
+	private Integer cityID;
 
-	public Employee(String name, String last_name, int age) {
+	public Employee(String name, String lastName, int age) {
 		this.name = name.trim();
-		this.last_name = last_name.trim();
+		this.lastName = lastName.trim();
 		this.age = Math.abs(age);
-		this.city_id = null;
+		this.cityID = null;
 	}
 
-	public Employee(String name, String last_name, int age, Integer city_id) {
+	public Employee(String name, String lastName, int age, Integer cityID) {
 		this.name = name.trim();
-		this.last_name = last_name.trim();
+		this.lastName = lastName.trim();
 		this.age = Math.abs(age);
-		this.city_id = Math.abs(city_id);
+		this.cityID = Math.abs(cityID);
 	}
 }

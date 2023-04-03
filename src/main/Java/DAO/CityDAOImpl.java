@@ -2,10 +2,15 @@ package DAO;
 
 import Config.ApplicationConnection;
 import Model.City;
+import org.hibernate.annotations.NotFound;
 
+import javax.persistence.EntityNotFoundException;
+import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,12 +35,15 @@ public class CityDAOImpl implements CityDAO {
 		try (PreparedStatement preparedStatement = appConnect.getPreparedStatement("SELECT * FROM city WHERE id = ?;")) {
 			preparedStatement.setInt(1, id);
 			ResultSet resultSet = preparedStatement.executeQuery();
+			if (!resultSet.next()) {
+				throw new EntityNotFoundException("По данному id ничего не найдено");
+			}
 			resultSet.next();
 			return new City(resultSet.getString(2));
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		return null;
 	}
 
 	@Override
@@ -46,11 +54,10 @@ public class CityDAOImpl implements CityDAO {
 			while (resultSet.next()) {
 				cities.put(resultSet.getInt(1), resultSet.getString(2));
 			}
-			return cities;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		return cities;
 	}
 
 	@Override
@@ -62,8 +69,8 @@ public class CityDAOImpl implements CityDAO {
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	@Override
@@ -74,7 +81,7 @@ public class CityDAOImpl implements CityDAO {
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 }
